@@ -69,10 +69,10 @@ ingress:
   provider: none
 EOF
 
-#rke up
-#
+rke up
+
 for i in $(seq 1 $NODE_COUNT); do
-    kubectl --kubeconfig=kube_config_cluster.yml annotate node ros-vm$i "kube-router.io/bgp-local-addresses=$(docker-machine inspect ros-vm$i | jq .Driver.IPAddress)"
+    kubectl --kubeconfig=kube_config_cluster.yml annotate node ros-vm$i "kube-router.io/bgp-local-addresses=$(docker-machine inspect ros-vm$i | jq .Driver.IPAddress | tr -d \")"
 done
-#
+
 kubectl --kubeconfig=kube_config_cluster.yml apply -f kube-router.yml
